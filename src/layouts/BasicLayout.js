@@ -197,7 +197,7 @@ class BasicLayout extends React.PureComponent {
             onNoticeVisibleChange={this.handleNoticeVisibleChange} />
         </Header>
         <Layout>
-          <Content style={{ margin: '2px 24px 0', height: '100%' }}>
+          <Content style={{ margin: '2px 54px 0', height: '100%' }}>
             <Breadcrumb style={{ margin: '16px 0' }}>
               <Breadcrumb.Item>Home</Breadcrumb.Item>
               <Breadcrumb.Item>List</Breadcrumb.Item>
@@ -208,16 +208,21 @@ class BasicLayout extends React.PureComponent {
                 {redirectData.map(item => (
                   <Redirect key={item.from} exact from={item.from} to={item.to} />
                 ))}
-                {getRoutes(match.path, routerData).map(item => (
-                  <AuthorizedRoute
-                    key={item.key}
-                    path={item.path}
-                    component={item.component}
-                    exact={item.exact}
-                    authority={item.authority}
-                    redirectPath="/exception/403"
-                  />
-                ))}
+                {getRoutes(match.path, routerData).map(item => {
+                  const Component = item.component;
+                  console.log(Component);
+                  return (
+                    <AuthorizedRoute
+                      key={item.key}
+                      path={item.path}
+                      render={props => <Component {...props} />}
+                      exact={item.exact}
+                      authority={item.authority}
+                      redirectPath="/exception/403"
+                    />
+                  );
+                })
+                }
                 <Redirect exact from="/" to={bashRedirect} />
                 <Route render={NotFound} />
               </Switch>

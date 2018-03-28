@@ -15,6 +15,7 @@ const modelNotExisted = (app, model) =>
 const dynamicWrapper = (app, models, component) => {
   // () => require('module')
   // transformed by babel-plugin-dynamic-import-node-sync
+  console.log(component);
   if (component.toString().indexOf('.then(') < 0) {
     models.forEach(model => {
       if (modelNotExisted(app, model)) {
@@ -26,6 +27,7 @@ const dynamicWrapper = (app, models, component) => {
       if (!routerDataCache) {
         routerDataCache = getRouterData(app);
       }
+
       return createElement(component().default, {
         ...props,
         routerData: routerDataCache,
@@ -72,6 +74,18 @@ export const getRouterData = app => {
     '/': {
       component: dynamicWrapper(app, ['user', 'login'], () => import('../layouts/BasicLayout')),
     },
+    '/main-page': {
+      component: dynamicWrapper(app, [], ()=> import('../routes/Exception/404') ),
+    },
+    // '/room': {
+    //   component: dynamicWrapper(app, [], () => {import('../routes/Exception/404')}),
+    // },
+    // 'rank-list': {
+    //   component: dynamicWrapper(app, [], () => {import('../routes/Exception/404')}),
+    // },
+    // 'strategy-management': {
+    //   component: dynamicWrapper(app, [], () => {import('../routes/Exception/404')}),
+    // },
     '/user': {
       component: dynamicWrapper(app, [], () => import("../layouts/UserLayout")),
     }
