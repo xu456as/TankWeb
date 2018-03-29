@@ -7,6 +7,7 @@ import { Link } from 'dva/router';
 import NoticeIcon from '../NoticeIcon';
 import HeaderSearch from '../HeaderSearch';
 import styles from './index.less';
+import MenuItem from 'antd/lib/menu/MenuItem';
 
 export default class GlobalHeader extends PureComponent {
   componentWillUnmount() {
@@ -48,6 +49,36 @@ export default class GlobalHeader extends PureComponent {
     onCollapse(!collapsed);
     this.triggerResizeEvent();
   };
+  getMainMenu() {
+    const {onMainMenuClick} = this.props;
+    const mainMenu = this.props.mainMenu;
+
+    const items = mainMenu.filter(menu => menu.path!="/user").
+    map(menu => {
+      return (
+      <Menu.Item
+        key={menu.path}
+      >
+        <a
+         onClick={(e)=>{onMainMenuClick(menu.path);}}
+        >
+          {menu.name}
+        </a>
+      </Menu.Item>);
+    });
+
+    return (
+      <Menu
+        className={styles.menu}
+        mode="horizontal"
+        defaultSelectedKeys={['2']}
+        style={{ height: '100%' }}
+      >
+        {items}
+      </Menu>
+    );
+
+  }
   /* eslint-disable*/
   @Debounce(600)
   triggerResizeEvent() {
@@ -65,7 +96,9 @@ export default class GlobalHeader extends PureComponent {
       onNoticeVisibleChange,
       onMenuClick,
       onNoticeClear,
+      mainMenu,
     } = this.props;
+
     const menu = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
         <Menu.Item disabled>
@@ -100,16 +133,7 @@ export default class GlobalHeader extends PureComponent {
           />
         </div>
         <div className={styles.left}>
-          <Menu
-            className={styles.menu}
-            mode="horizontal"
-            defaultSelectedKeys={['2']}
-            style={{ height: '100%'}}
-          >
-            <Menu.Item key="1">nav 1</Menu.Item>
-            <Menu.Item key="2">nav 2</Menu.Item>
-            <Menu.Item key="3">nav 3</Menu.Item>
-          </Menu>
+          {this.getMainMenu()}
         </div>
         <div className={styles.right}>
           <NoticeIcon

@@ -91,14 +91,21 @@ class BasicLayout extends React.PureComponent {
     breadcrumbNameMap: PropTypes.object,
   };
   state = {
+    breadcrumb : null,
     isMobile,
   };
+
   getChildContext() {
     const { location, routerData } = this.props;
     return {
       location,
       breadcrumbNameMap: getBreadcrumbNameMap(getMenuData(), routerData),
     };
+  }
+  componentWillMount(){
+    this.state.breadcrumb = null;
+    const {location, breadcrumbNameMap} = this.getChildContext();
+    console.log(breadcrumbNameMap);
   }
   componentDidMount() {
     enquireScreen(mobile => {
@@ -139,6 +146,11 @@ class BasicLayout extends React.PureComponent {
     }
     return redirect;
   };
+
+  handleMainMenuSwitch = (path) => {
+    this.props.history.replace(path);
+  };
+
   handleMenuCollapse = collapsed => {
     this.props.dispatch({
       type: 'global/changeLayoutCollapsed',
@@ -180,6 +192,8 @@ class BasicLayout extends React.PureComponent {
       match,
       location,
     } = this.props;
+    const ctx = this.getChildContext();
+    console.log(ctx);
     const bashRedirect = this.getBashRedirect();
     const layout = (
       <Layout>
@@ -188,6 +202,8 @@ class BasicLayout extends React.PureComponent {
             logo={logo}
             currentUser={currentUser}
             fetchingNotices={fetchingNotices}
+            mainMenu={getMenuData()}
+            onMainMenuClick={this.handleMainMenuSwitch}
             notices={notices}
             collapsed={collapsed}
             isMobile={this.state.isMobile}
@@ -198,11 +214,12 @@ class BasicLayout extends React.PureComponent {
         </Header>
         <Layout>
           <Content style={{ margin: '2px 54px 0', height: '100%' }}>
-            <Breadcrumb style={{ margin: '16px 0' }}>
+            <div style={{margin: '12px'}}/>
+            {/* <Breadcrumb style={{ margin: '8px 0' }}>
               <Breadcrumb.Item>Home</Breadcrumb.Item>
               <Breadcrumb.Item>List</Breadcrumb.Item>
               <Breadcrumb.Item>App</Breadcrumb.Item>
-            </Breadcrumb>
+            </Breadcrumb> */}
             <div style={{ background: '#fff', padding: 24, minHeight: 640 }}>
               <Switch>
                 {redirectData.map(item => (
@@ -210,7 +227,6 @@ class BasicLayout extends React.PureComponent {
                 ))}
                 {getRoutes(match.path, routerData).map(item => {
                   const Component = item.component;
-                  console.log(Component);
                   return (
                     <AuthorizedRoute
                       key={item.key}

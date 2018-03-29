@@ -15,7 +15,6 @@ const modelNotExisted = (app, model) =>
 const dynamicWrapper = (app, models, component) => {
   // () => require('module')
   // transformed by babel-plugin-dynamic-import-node-sync
-  console.log(component);
   if (component.toString().indexOf('.then(') < 0) {
     models.forEach(model => {
       if (modelNotExisted(app, model)) {
@@ -75,20 +74,30 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, ['user', 'login'], () => import('../layouts/BasicLayout')),
     },
     '/main-page': {
-      component: dynamicWrapper(app, [], ()=> import('../routes/Exception/404') ),
+      component: dynamicWrapper(app, ['list'], ()=> import('../routes/MainPage/NewsList') ),
     },
-    // '/room': {
-    //   component: dynamicWrapper(app, [], () => {import('../routes/Exception/404')}),
-    // },
-    // 'rank-list': {
-    //   component: dynamicWrapper(app, [], () => {import('../routes/Exception/404')}),
-    // },
-    // 'strategy-management': {
-    //   component: dynamicWrapper(app, [], () => {import('../routes/Exception/404')}),
-    // },
+    '/room': {
+      component: dynamicWrapper(app, [], () => import('../routes/Exception/403')),
+    },
+    '/rank-list': {
+      component: dynamicWrapper(app, [], () => import('../routes/Exception/500')),
+    },
+    '/strategy-management': {
+      component: dynamicWrapper(app, [], () => import('../routes/Exception/500')),
+    },
     '/user': {
       component: dynamicWrapper(app, [], () => import("../layouts/UserLayout")),
-    }
+    },
+    '/user/login': {
+      component: dynamicWrapper(app, ['login'], () => import('../routes/User/Login')),
+    },
+    '/user/register': {
+      component: dynamicWrapper(app, ['register'], () => import('../routes/User/Register')),
+    },
+    '/user/register-result': {
+      component: dynamicWrapper(app, [], () => import('../routes/User/RegisterResult')),
+    },
+
   };
   // Get name from ./menu.js or just set it in the router data.
   const menuData = getFlatMenuData(getMenuData());
