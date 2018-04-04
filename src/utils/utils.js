@@ -133,9 +133,12 @@ function getRenderArr(routes) {
  * @param {routerData} routerData
  */
 export function getRoutes(path, routerData) {
+  // console.log(path);
+  // console.log(routerData);
   let routes = Object.keys(routerData).filter(
     routePath => routePath.indexOf(path) === 0 && routePath !== path
   );
+  // console.log({"path": path});
   // Replace path to '' eg. path='user' /user/name => name
   routes = routes.map(item => item.replace(path, ''));
   // Get the route to be rendered to remove the deep rendering
@@ -150,6 +153,8 @@ export function getRoutes(path, routerData) {
       path: `${path}${item}`,
     };
   });
+  // console.log(path);
+  // console.log(renderRoutes);
   return renderRoutes;
 }
 

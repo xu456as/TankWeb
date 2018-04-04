@@ -140,7 +140,6 @@ export default class NewsList extends PureComponent {
               renderItem={item => (
                 <List.Item >
                   <List.Item.Meta
-                    avatar={<Avatar src={item.logo} shape="square" size="large" />}
                     title={<a href={item.href}>{item.title}</a>}
                     description={item.subDescription}
                   />

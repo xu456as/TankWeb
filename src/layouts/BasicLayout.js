@@ -105,7 +105,7 @@ class BasicLayout extends React.PureComponent {
   componentWillMount(){
     this.state.breadcrumb = null;
     const {location, breadcrumbNameMap} = this.getChildContext();
-    console.log(breadcrumbNameMap);
+    // console.log(breadcrumbNameMap);
   }
   componentDidMount() {
     enquireScreen(mobile => {
@@ -148,7 +148,8 @@ class BasicLayout extends React.PureComponent {
   };
 
   handleMainMenuSwitch = (path) => {
-    this.props.history.replace(path);
+    this.props.match.path = path;
+    console.log(this.props.match.path);
   };
 
   handleMenuCollapse = collapsed => {
@@ -193,7 +194,6 @@ class BasicLayout extends React.PureComponent {
       location,
     } = this.props;
     const ctx = this.getChildContext();
-    console.log(ctx);
     const bashRedirect = this.getBashRedirect();
     const layout = (
       <Layout>
@@ -213,7 +213,7 @@ class BasicLayout extends React.PureComponent {
             onNoticeVisibleChange={this.handleNoticeVisibleChange} />
         </Header>
         <Layout>
-          <Content style={{ margin: '2px 54px 0', height: '100%' }}>
+          <Content style={{ margin: '2px 54px 0', height: '100%' }} >
             <div style={{margin: '12px'}}/>
             {/* <Breadcrumb style={{ margin: '8px 0' }}>
               <Breadcrumb.Item>Home</Breadcrumb.Item>
@@ -222,9 +222,9 @@ class BasicLayout extends React.PureComponent {
             </Breadcrumb> */}
             <div style={{ background: '#fff', padding: 24, minHeight: 640 }}>
               <Switch>
-                {redirectData.map(item => (
+                {/* {redirectData.map(item => (
                   <Redirect key={item.from} exact from={item.from} to={item.to} />
-                ))}
+                ))} */}
                 {getRoutes(match.path, routerData).map(item => {
                   const Component = item.component;
                   return (
@@ -239,8 +239,9 @@ class BasicLayout extends React.PureComponent {
                   );
                 })
                 }
-                <Redirect exact from="/" to={bashRedirect} />
-                <Route render={NotFound} />
+                <Redirect from="/" to="/main-page" />
+                {/* <Redirect exact from="/" to={bashRedirect} /> */}
+                {/* <Route render={NotFound} /> */}
               </Switch>
             </div>
           </Content>

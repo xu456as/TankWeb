@@ -74,7 +74,13 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, ['user', 'login'], () => import('../layouts/BasicLayout')),
     },
     '/main-page': {
-      component: dynamicWrapper(app, ['list'], ()=> import('../routes/MainPage/NewsList') ),
+      component: dynamicWrapper(app, [], ()=> import('../layouts/MainPageLayout') ),
+    },
+    '/main-page/news-list': {
+      component: dynamicWrapper(app, ['list'], () => import('../routes/MainPage/NewsList')),
+    },
+    '/main-page/article': {
+      component: dynamicWrapper(app, [], () => import('../routes/MainPage/Article')),
     },
     '/room': {
       component: dynamicWrapper(app, [], () => import('../routes/Exception/403')),

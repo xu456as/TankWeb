@@ -1,0 +1,28 @@
+@import '~antd/lib/style/themes/default.less';
+@import '../../utils/utils.less';
+
+.article {
+  .content {
+    margin: 0 auto;
+    line-height: 22px;
+    max-width: 720px;
+  }
+  .extra {
+    color: @text-color-secondary;
+    margin-top: 16px;
+    line-height: 22px;
+    & > :global(.ant-avatar) {
+      vertical-align: top;
+      margin-right: 8px;
+      width: 20px;
+      height: 20px;
+      position: relative;
+      top: 1px;
+    }
+    & > em {
+      color: @disabled-color;
+      font-style: normal;
+      margin-left: 16px;
+    }
+  }
+}
