@@ -1,6 +1,41 @@
 @import '~antd/lib/style/themes/default.less';
 @import '../../utils/utils.less';
 
+.title{
+  >h1 {
+    text-align: center;
+    font-size: 32px;
+    color: #000;
+  }
+}
+.author{
+  >p {
+    text-align: center;
+    font-size: 16px;
+    color: #000;
+  }
+}
+.content{
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%;
+  >p {
+    text-align: left;
+    line-height: 2em;
+    font-size: 14px;
+    color: #000;
+  }
+}
+.foot{
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%;
+  >p{
+    font-size: 12px;
+    text-align: right;
+  }
+}
+
 .article {
   .content {
     margin: 0 auto;
@@ -11,6 +46,7 @@
     color: @text-color-secondary;
     margin-top: 16px;
     line-height: 22px;
+    float: left;
     & > :global(.ant-avatar) {
       vertical-align: top;
       margin-right: 8px;

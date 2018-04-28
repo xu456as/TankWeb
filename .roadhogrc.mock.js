@@ -6,6 +6,7 @@ import { getProfileBasicData } from './mock/profile';
 import { getProfileAdvancedData } from './mock/profile';
 import { getNotices } from './mock/notices';
 import { format, delay } from 'roadhog-api-doc';
+import { getArticles } from './mock/article';
 
 // 是否禁用代理
 const noProxy = process.env.NO_PROXY === 'true';
@@ -135,6 +136,7 @@ const proxy = {
       path: '/base/category/list',
     });
   },
+  'GET /api/article/list': getArticles,
 };
 
 export default (noProxy ? {} : delay(proxy, 1000));

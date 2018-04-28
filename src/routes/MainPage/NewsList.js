@@ -21,27 +21,32 @@ import {Layout} from 'antd';
 
 import styles from './NewsList.less';
 
+import queryArticles from '../../services/MainPageService';
+
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 const { Search } = Input;
 
-@connect(({ list, loading }) => ({
-  list,
-  loading: loading.models.list,
-}))
+@connect(({ article, loading }) => ({
+  article ,
+  loading: loading.models.list}))
 export default class NewsList extends PureComponent {
   componentDidMount() {
     this.props.dispatch({
-      type: 'list/fetch',
-      payload: {
-        count: 5,
-      },
+      type: 'article/fetch',
+      payload: {}
     });
   }
 
-  render() {
-    const { list: { list }, loading } = this.props;
+  getArticleDetail = (id) => {
 
+    const {history} = this.props;
+    history.push({pathname: "/main-page/article", state: {id: id}});
+  }
+
+  render() {
+    const { article:  article , loading } = this.props;
+    const {articles} = article;
     const Info = ({ title, value, bordered }) => (
       <div className={styles.headerInfo}>
         <span>{title}</span>
@@ -65,18 +70,18 @@ export default class NewsList extends PureComponent {
       showSizeChanger: true,
       showQuickJumper: true,
       pageSize: 5,
-      total: 50,
+      total: 10,
     };
 
-    const ListContent = ({ data: { owner, createdAt, percent, status } }) => (
+    const ListContent = ( {data: { author, title, date, content } }) => (
       <div className={styles.listContent}>
         <div className={styles.listContentItem}>
           <span>来源</span>
-          <p>{owner}</p>
+          <p>{author}</p>
         </div>
         <div className={styles.listContentItem}>
           <span>时间</span>
-          <p>{moment(createdAt).format('YYYY-MM-DD HH:mm')}</p>
+          <p>{moment(date).format('YYYY-MM-DD')}</p>
         </div>
         {/* <div className={styles.listContentItem}>
           <Progress percent={percent} status={status} strokeWidth={6} style={{ width: 180 }} />
@@ -102,9 +107,8 @@ export default class NewsList extends PureComponent {
         </a>
       </Dropdown>
     );
-
     return (
-      <Layout>
+      <Layout style={{background: '#fff'}}>
         <div className={styles.standardList}>
           {/* <Card bordered={false}>
             <Row>
@@ -123,7 +127,7 @@ export default class NewsList extends PureComponent {
           <Card
             className={styles.listCard}
             bordered={false}
-            title="新闻"
+            title="公告"
             style={{ marginTop: 2 }}
             bodyStyle={{ padding: '0 32px 40px 32px' }}
             // extra={extraContent}
@@ -136,16 +140,19 @@ export default class NewsList extends PureComponent {
               rowKey="id"
               loading={loading}
               pagination={paginationProps}
-              dataSource={list}
-              renderItem={item => (
+              dataSource={articles}
+              renderItem={item => {
+                console.log(item);
+                return (
                 <List.Item >
                   <List.Item.Meta
-                    title={<a href={item.href}>{item.title}</a>}
-                    description={item.subDescription}
+                    title={<a onClick={() => this.getArticleDetail(item.id)}>{item.title}</a>}
+                    description={item.author}
                   />
                   <ListContent data={item} />
                 </List.Item>
-              )}
+              );
+            }}
             />
           </Card>
         </div>
