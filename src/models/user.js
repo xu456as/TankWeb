@@ -1,42 +1,38 @@
-import { query as queryUsers, queryCurrent } from '../services/user';
-
+import { queryCurrent } from '../services/UserService';
 export default {
   namespace: 'user',
 
   state: {
-    list: [],
-    currentUser: {},
+    currentUser: {}
   },
 
   effects: {
-    *fetch(_, { call, put }) {
-      const response = yield call(queryUsers);
-      yield put({
-        type: 'save',
-        payload: response,
-      });
-    },
     *fetchCurrent(_, { call, put }) {
       const response = yield call(queryCurrent);
       yield put({
         type: 'saveCurrentUser',
-        payload: response,
+        payload: {...response, notifyCount: 0},
       });
     },
+    *logout(_, { call, put }) {
+      console.log("user/logout");
+      yield put({
+        type: 'clearUser'
+      });
+    }
   },
 
   reducers: {
-    save(state, action) {
-      return {
-        ...state,
-        list: action.payload,
-      };
-    },
     saveCurrentUser(state, action) {
       return {
         ...state,
         currentUser: action.payload,
       };
+    },
+    clearUser(state, action){
+      return {
+        currentUser : {}
+      }
     },
     changeNotifyCount(state, action) {
       return {

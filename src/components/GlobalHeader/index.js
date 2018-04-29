@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Menu, Icon, Spin, Tag, Dropdown, Avatar, Divider, Tooltip } from 'antd';
+import { Menu, Icon, Spin, Tag, Dropdown, Avatar, Divider, Tooltip, Button } from 'antd';
 import moment from 'moment';
 import groupBy from 'lodash/groupBy';
 import Debounce from 'lodash-decorators/debounce';
@@ -44,29 +44,30 @@ export default class GlobalHeader extends PureComponent {
     });
     return groupBy(newNotices, 'type');
   }
+
   toggle = () => {
     const { collapsed, onCollapse } = this.props;
     onCollapse(!collapsed);
     this.triggerResizeEvent();
   };
   getMainMenu() {
-    const {onMainMenuClick, match} = this.props;
+    const { onMainMenuClick, match } = this.props;
     const mainMenu = this.props.mainMenu;
 
-    const items = mainMenu.filter(menu => menu.path!="/user").
-    map(menu => {
-      return (
-      <Menu.Item
-        key={menu.path}
-      >
-        <Link
-          to={menu.path}
-          onClick={() =>{ onMainMenuClick(menu.path);}}
-        >
-          {menu.name}
-        </Link>
-      </Menu.Item>);
-    });
+    const items = mainMenu.filter(menu => menu.path != "/user").
+      map(menu => {
+        return (
+          <Menu.Item
+            key={menu.path}
+          >
+            <Link
+              to={menu.path}
+              onClick={() => { onMainMenuClick(menu.path); }}
+            >
+              {menu.name}
+            </Link>
+          </Menu.Item>);
+      });
 
     return (
       <Menu
@@ -98,8 +99,18 @@ export default class GlobalHeader extends PureComponent {
       onMenuClick,
       onNoticeClear,
       mainMenu,
+      loginBtn,
+      logupBtn,
+      logoutBtn
     } = this.props;
+    const avatar = "https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png";
 
+    const loginAndLogup =(
+      <div>
+        <Button type="primary" onClick={loginBtn}>登录</Button>
+        <Button type="primary" onClick={logupBtn}>注册</Button>
+      </div>
+    );
     const menu = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
         <Menu.Item disabled>
@@ -108,12 +119,9 @@ export default class GlobalHeader extends PureComponent {
         <Menu.Item disabled>
           <Icon type="setting" />设置
         </Menu.Item>
-        <Menu.Item key="triggerError">
-          <Icon type="close-circle" />触发报错
-        </Menu.Item>
         <Menu.Divider />
         <Menu.Item key="logout">
-          <Icon type="logout" />退出登录
+          <Icon onClick={logoutBtn} type="logout" />退出登录
         </Menu.Item>
       </Menu>
     );
@@ -167,16 +175,17 @@ export default class GlobalHeader extends PureComponent {
               emptyImage="https://gw.alipayobjects.com/zos/rmsportal/HsIsxMZiWKrNUavQUXqx.svg"
             />
           </NoticeIcon>
-          {currentUser.name ? (
+          {currentUser.email ? (
             <Dropdown overlay={menu}>
               <span className={`${styles.action} ${styles.account}`}>
-                <Avatar size="small" className={styles.avatar} src={currentUser.avatar} />
-                <span className={styles.name}>{currentUser.name}</span>
+                <Avatar size="small" className={styles.avatar} src={avatar} />
+                <span className={styles.name}>{currentUser.email}</span>
               </span>
             </Dropdown>
-          ) : (
-              <Spin size="small" style={{ marginLeft: 8 }} />
-            )}
+          ) : (<div style={{float: "right"}}>
+            <Button style={{marginRight: "3px"}} type="primary" onClick={loginBtn}>登录</Button>
+            <Button style={{marginLeft: "3px"}} type="primary" onClick={logupBtn}>注册</Button>
+          </div>)}
         </div>
       </div>
     );

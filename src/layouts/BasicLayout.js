@@ -152,6 +152,22 @@ class BasicLayout extends React.PureComponent {
     console.log(this.props.match.path);
   };
 
+  loginBtn = () => {
+    this.props.history.push("/user/login");
+  }
+  logupBtn = () => {
+    this.props.history.push("/user/register");
+  }
+  logoutBtn = () => {
+    console.log("logoutBtn");
+    this.props.dispatch({
+      type: 'user/logout'
+    });
+    this.props.dispatch({
+      type: 'login/logout'
+    });
+  }
+
   handleMenuCollapse = collapsed => {
     this.props.dispatch({
       type: 'global/changeLayoutCollapsed',
@@ -173,6 +189,9 @@ class BasicLayout extends React.PureComponent {
     if (key === 'logout') {
       this.props.dispatch({
         type: 'login/logout',
+      });
+      this.props.dispatch({
+        type: 'user/logout',
       });
     }
   };
@@ -210,6 +229,9 @@ class BasicLayout extends React.PureComponent {
             onNoticeClear={this.handleNoticeClear}
             onCollapse={this.handleMenuCollapse}
             onMenuClick={this.handleMenuClick}
+            loginBtn = {this.loginBtn}
+            logupBtn = {this.logupBtn}
+            logoutBtn = {this.logoutBtn}
             onNoticeVisibleChange={this.handleNoticeVisibleChange} />
         </Header>
         <Layout>

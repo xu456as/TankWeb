@@ -21,3 +21,7 @@ export async function logup(params) {
 export async function logout() {
   return request(`${href}${pathPrefix}/logout`, {method: 'POST'});
 }
+
+export async function queryCurrent(){
+  return request(`${href}${pathPrefix}/queryCurrent`, {method: 'POST'});
+}

@@ -1,5 +1,4 @@
 import { routerRedux } from 'dva/router';
-import { push } from 'react-router-redux'
 import { fakeAccountLogin } from '../services/api';
 import { setAuthority } from '../utils/authority';
 import { reloadAuthorized } from '../utils/Authorized';
@@ -15,10 +14,11 @@ export default {
     *login({ payload }, { call, put }) {
       console.log(payload);
       const response = yield call(login, payload);
+
       console.log(response);
       yield put({
         type: 'changeLoginStatus',
-        payload: response,
+        payload: {...response, currentAuthority: "user"},
       });
       // Login successfully
       if (response.code === '1') {
@@ -29,14 +29,16 @@ export default {
         alert("账号或密码错误");
       }
     },
-    *logout(_, { put, select }) {
+    *logout(_, { call, put }) {
       try {
+        console.log("login/logout");
+        const resp = yield call(logout);
         // get location pathname
-        const urlParams = new URL(window.location.href);
-        const pathname = yield select(state => state.routing.location.pathname);
-        // add the parameters in the url
-        urlParams.searchParams.set('redirect', pathname);
-        window.history.replaceState(null, 'login', urlParams.href);
+        // const urlParams = new URL(window.location.href);
+        // const pathname = yield select(state => state.routing.location.pathname);
+        // // add the parameters in the url
+        // urlParams.searchParams.set('redirect', pathname);
+        // window.history.replaceState(null, 'login', urlParams.href);
       } finally {
         yield put({
           type: 'changeLoginStatus',
@@ -46,7 +48,7 @@ export default {
           },
         });
         reloadAuthorized();
-        yield put(routerRedux.push('/user/login'));
+        // yield put(routerRedux.push('/user/login'));
       }
     },
   },
