@@ -5,16 +5,17 @@ const { Content } = Layout;
 import { connect } from 'dva';
 import { stringify } from 'qs';
 import {login, logup, logout} from '../../services/UserService';
+import { getBattleLogs } from '../../services/BattleLogService';
 
+@connect(({reply}) => ({reply}))
 class ReplyChess extends React.PureComponent {
 
-  state = {
-    user : {}
-  }
-
   componentDidMount() {
-
+    this.props.dispatch({
+      type: 'reply/fetch'
+    });
   }
+
   myLogin = async() => {
     let result = {};
     result = await login({
@@ -37,12 +38,20 @@ class ReplyChess extends React.PureComponent {
   }
 
   render() {
+    const {location} = this.props;
+    let url = "";
+    try{
+      url = location.state.url;
+    }catch(err){
+      url = "";
+    }
+    alert(url);
     return (<div>
               <p>ReplyChess</p>
-              <p>{stringify(this.state.user)}</p>
-              <p><button onClick = {this.myLogin}>Button</button></p>
-              <p><button onClick = {this.myLogup}>Button</button></p>
-              <p><button onClick = {this.myLogout}>Button</button></p>
+              <p><button onClick = {this.myLogin}>Login</button></p>
+              <p><button onClick = {this.myLogup}>Logup</button></p>
+              <p><button onClick = {this.myLogout}>Logout</button></p>
+              <p><button onClick = {this.myGetLogs}>getLogs</button></p>
             </div>);
   }
 }

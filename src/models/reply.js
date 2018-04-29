@@ -1,3 +1,4 @@
+import { getBattleLogs } from '../services/BattleLogService';
 export default {
   namespace: 'reply',
 
@@ -7,10 +8,10 @@ export default {
 
   effects: {
     *fetch(_, { call, put }) {
-      const response = yield call(queryUsers);
+      const response = yield call(getBattleLogs);
       yield put({
         type: 'save',
-        payload: response,
+        payload: Array.isArray(response) ? response : [],
       });
     },
   },
@@ -19,7 +20,7 @@ export default {
     save(state, action) {
       return {
         ...state,
-        list: action.payload,
+        logs: action.payload,
       };
     },
   },

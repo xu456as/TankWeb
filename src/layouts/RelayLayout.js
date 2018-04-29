@@ -32,7 +32,7 @@ export default class ReplyLayout extends React.PureComponent {
                 );
               })
               }
-              <Redirect from='/reply' to="/reply/detail" />
+              <Redirect from='/reply' to="/reply/list" />
             </Switch>
           </Content>
         </div>

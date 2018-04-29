@@ -1,26 +1,32 @@
 import { routerRedux } from 'dva/router';
+import { push } from 'react-router-redux'
 import { fakeAccountLogin } from '../services/api';
 import { setAuthority } from '../utils/authority';
 import { reloadAuthorized } from '../utils/Authorized';
-
+import {login, logup, logout} from '../services/UserService';
 export default {
   namespace: 'login',
 
   state: {
-    status: undefined,
+    code: undefined,
   },
 
   effects: {
     *login({ payload }, { call, put }) {
-      const response = yield call(fakeAccountLogin, payload);
+      console.log(payload);
+      const response = yield call(login, payload);
+      console.log(response);
       yield put({
         type: 'changeLoginStatus',
         payload: response,
       });
       // Login successfully
-      if (response.status === 'ok') {
+      if (response.code === '1') {
         reloadAuthorized();
         yield put(routerRedux.push('/'));
+      }
+      else{
+        alert("账号或密码错误");
       }
     },
     *logout(_, { put, select }) {
@@ -35,7 +41,7 @@ export default {
         yield put({
           type: 'changeLoginStatus',
           payload: {
-            status: false,
+            code: "0",
             currentAuthority: 'guest',
           },
         });
@@ -50,8 +56,8 @@ export default {
       setAuthority(payload.currentAuthority);
       return {
         ...state,
-        status: payload.status,
-        type: payload.type,
+        code: payload.code,
+        type: "account"
       };
     },
   },

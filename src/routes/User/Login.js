@@ -5,6 +5,8 @@ import { Checkbox, Alert, Icon } from 'antd';
 import Login from 'components/Login';
 import styles from './Login.less';
 
+// import {login, logup, logout} from '../../services/UserService';
+
 const { Tab, UserName, Password, Mobile, Captcha, Submit } = Login;
 
 @connect(({ login, loading }) => ({
@@ -22,13 +24,14 @@ export default class LoginPage extends Component {
   };
 
   handleSubmit = (err, values) => {
+    console.log(values);
     const { type } = this.state;
-    if (!err) {
+    if (!err && values.password0 == values.password1) {
       this.props.dispatch({
         type: 'login/login',
         payload: {
-          ...values,
-          type,
+          email: values.userName,
+          password: values.password0
         },
       });
     }
@@ -51,35 +54,16 @@ export default class LoginPage extends Component {
       <div className={styles.main}>
         <Login defaultActiveKey={type} onTabChange={this.onTabChange} onSubmit={this.handleSubmit}>
           <Tab key="account" tab="账户密码登录">
-            {login.status === 'error' &&
+            {login.status === '0' &&
               login.type === 'account' &&
               !login.submitting &&
-              this.renderMessage('账户或密码错误（admin/888888）')}
-            <UserName name="userName" placeholder="admin/user" />
-            <Password name="password" placeholder="888888/123456" />
+              this.renderMessage('密码不一致')}
+            <UserName name="userName" placeholder="email" />
+            <Password name="password0" placeholder="password" />
+            <Password name="password1" placeholder="password" />
           </Tab>
-          <Tab key="mobile" tab="手机号登录">
-            {login.status === 'error' &&
-              login.type === 'mobile' &&
-              !login.submitting &&
-              this.renderMessage('验证码错误')}
-            <Mobile name="mobile" />
-            <Captcha name="captcha" />
-          </Tab>
-          <div>
-            <Checkbox checked={this.state.autoLogin} onChange={this.changeAutoLogin}>
-              自动登录
-            </Checkbox>
-            <a style={{ float: 'right' }} href="">
-              忘记密码
-            </a>
-          </div>
           <Submit loading={submitting}>登录</Submit>
           <div className={styles.other}>
-            其他登录方式
-            <Icon className={styles.icon} type="alipay-circle" />
-            <Icon className={styles.icon} type="taobao-circle" />
-            <Icon className={styles.icon} type="weibo-circle" />
             <Link className={styles.register} to="/user/register">
               注册账户
             </Link>
