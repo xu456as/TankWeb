@@ -48,7 +48,7 @@ class Article extends React.PureComponent {
 
 
     return (
-      <Layout style={{ background: '#fff' }}>
+      <Layout style={{background: '#fff', height: '100%'}}>
         <Content>
           <div className={styles.title}><h1>{title}</h1></div>
           <div className={styles.author}><p>{author}</p></div>

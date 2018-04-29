@@ -5,7 +5,8 @@ export default {
   namespace: "article",
 
   state: {
-    articles: []
+    articles: [],
+    num : 0
   },
 
   effects: {
@@ -22,6 +23,6 @@ export default {
       return {
         articles: payload
       };
-    }
+    },
   }
 }

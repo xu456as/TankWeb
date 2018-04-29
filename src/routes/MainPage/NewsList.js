@@ -108,7 +108,7 @@ export default class NewsList extends PureComponent {
       </Dropdown>
     );
     return (
-      <Layout style={{background: '#fff'}}>
+      <Layout style={{background: '#fff', height: '100%'}}>
         <div className={styles.standardList}>
           {/* <Card bordered={false}>
             <Row>

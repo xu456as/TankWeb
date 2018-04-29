@@ -22,6 +22,11 @@ const menuData = [
     path: 'strategy-management'
   },
   {
+    name: '战斗回放',
+    icon: 'warning',
+    path: 'reply'
+  },
+  {
     name: '账户',
     icon: 'user',
     path: 'user',

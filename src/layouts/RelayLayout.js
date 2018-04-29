@@ -3,12 +3,11 @@ import { Layout } from 'antd';
 import { Switch, Redirect } from 'react-router-dom';
 import { getRoutes } from '../utils/utils';
 import Authorized from '../utils/Authorized';
-import styles from './MainPageLayout.less';
 const { Content } = Layout;
 const { AuthorizedRoute, check } = Authorized;
 
 
-export default class MainPageLayout extends React.PureComponent {
+export default class ReplyLayout extends React.PureComponent {
 
   render() {
 
@@ -33,7 +32,7 @@ export default class MainPageLayout extends React.PureComponent {
                 );
               })
               }
-              <Redirect from='/main-page' to="/main-page/news-list" />
+              <Redirect from='/reply' to="/reply/detail" />
             </Switch>
           </Content>
         </div>
