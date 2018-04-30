@@ -27,6 +27,11 @@ const menuData = [
     path: 'reply'
   },
   {
+    name: '地图',
+    icon: 'map',
+    path: 'map'
+  },
+  {
     name: '账户',
     icon: 'user',
     path: 'user',

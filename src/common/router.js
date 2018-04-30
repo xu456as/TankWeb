@@ -100,6 +100,15 @@ export const getRouterData = app => {
     '/reply/detail':{
       component: dynamicWrapper(app, ['reply'], () => import('../routes/Reply/ReplyChess')),
     },
+    '/map':{
+      component: dynamicWrapper(app, [], () => import('../layouts/MapLayout')),
+    },
+    '/map/list':{
+      component: dynamicWrapper(app, ['user', 'map'], () => import('../routes/Map/MapList')),
+    },
+    '/map/detail':{
+      component: dynamicWrapper(app, ['user', 'map'], () => import('../routes/Map/MapList')),
+    },
     '/user': {
       component: dynamicWrapper(app, [], () => import("../layouts/UserLayout")),
     },
@@ -108,6 +117,9 @@ export const getRouterData = app => {
     },
     '/user/register': {
       component: dynamicWrapper(app, ['register'], () => import('../routes/User/Register')),
+    },
+    '/userDetail': {
+      component: dynamicWrapper(app, ['user'], () => import('../routes/User/Detail')),
     },
     '/user/register-result': {
       component: dynamicWrapper(app, [], () => import('../routes/User/RegisterResult')),

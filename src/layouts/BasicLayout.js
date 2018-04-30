@@ -120,9 +120,9 @@ class BasicLayout extends React.PureComponent {
   getPageTitle() {
     const { routerData, location } = this.props;
     const { pathname } = location;
-    let title = 'Ant Design Pro';
+    let title = 'AI Tank';
     if (routerData[pathname] && routerData[pathname].name) {
-      title = `${routerData[pathname].name} - Ant Design Pro`;
+      title = `${routerData[pathname].name} - AI Tank`;
     }
     return title;
   }
@@ -167,6 +167,9 @@ class BasicLayout extends React.PureComponent {
       type: 'login/logout'
     });
   }
+  userDetailBtn = () => {
+    this.props.history.push("/userDetail");
+  }
 
   handleMenuCollapse = collapsed => {
     this.props.dispatch({
@@ -185,6 +188,9 @@ class BasicLayout extends React.PureComponent {
     if (key === 'triggerError') {
       this.props.dispatch(routerRedux.push('/exception/trigger'));
       return;
+    }
+    if(key === "user"){
+      this.userDetailBtn();
     }
     if (key === 'logout') {
       this.props.dispatch({
@@ -271,15 +277,15 @@ class BasicLayout extends React.PureComponent {
             <GlobalFooter
               links={[
                 {
-                  key: 'Pro 首页',
-                  title: 'Pro 首页',
-                  href: 'http://pro.ant.design',
+                  key: 'baidu',
+                  title: 'baidu',
+                  href: 'http://www.baidu.com',
                   blankTarget: true,
                 },
                 {
                   key: 'github',
                   title: <Icon type="github" />,
-                  href: 'https://github.com/ant-design/ant-design-pro',
+                  href: 'https://github.com/xu456as',
                   blankTarget: true,
                 },
                 {
