@@ -16,18 +16,23 @@ import {
   Avatar,
 } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
-import { Layout } from 'antd';
+import { Layout, Modal, Form } from 'antd';
+const FormItem = Form.item;
 import styles from './MapList.less'
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 const { Search } = Input;
+import  ModalAdd  from './ModalAdd';
 
-@connect(({user, map, loading }) => ({
+@connect(({ user, map, loading }) => ({
   user,
   map,
   loading: loading.models.list
 }))
 export default class MapList extends PureComponent {
+  state = {
+    modalVisible: false,
+  }
   componentDidMount() {
     this.props.dispatch({
       type: 'map/fetch'
@@ -35,11 +40,28 @@ export default class MapList extends PureComponent {
   }
 
   getMapDetail = (url) => {
-    const {history} = this.props;
-    history.push({pathname: "/map/detail", state: {id: id}});
+    const { history } = this.props;
+    history.push({ pathname: "/map/detail", state: { id: id } });
+  }
+
+  showAddModal = () => {
+    this.setState({ modalVisible: true });
+  }
+  hideAddModal = () => {
+    this.setState({ modalVisible: false });
+  }
+
+  handleAddMap = (data) => {
+    console.log(data);
+    this.props.dispatch({
+      type: 'map/upload',
+      payload : data
+    });
+    this.setState({ modalVisible: false });
   }
 
   render() {
+    const { modalVisible } = this.state;
     console.log(this.props);
     const { user, map, loading } = this.props;
     const mapList = map.list;
@@ -75,7 +97,7 @@ export default class MapList extends PureComponent {
             style={{ marginTop: 2 }}
             bodyStyle={{ padding: '0 32px 40px 32px' }}
           >
-          <Button disabled={!currentUser || currentUser.type !==1} type="dashed" style={{ width: '100%', marginBottom: 8 }} icon="plus">
+            <Button onClick={this.showAddModal} disabled={!currentUser || currentUser.type !== 1} type="dashed" style={{ width: '100%', marginBottom: 8 }} icon="plus">
               添加
             </Button>
             <List
@@ -89,7 +111,7 @@ export default class MapList extends PureComponent {
                 return (
                   <List.Item >
                     <List.Item.Meta
-                      title={<a onClick={() => {}}>{item.name}</a>}
+                      title={<a onClick={() => { }}>{item.name}</a>}
                       description={item.name}
                     />
                     <ListContent data={item} />
@@ -99,6 +121,11 @@ export default class MapList extends PureComponent {
             />
           </Card>
         </div>
+        <ModalAdd
+          visible={modalVisible}
+          onCancel={this.hideAddModal}
+          onSubmit={this.handleAddMap}
+         />
       </Layout>
     );
   }

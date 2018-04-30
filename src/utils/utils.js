@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { read } from 'fs';
 
 export function fixedZero(val) {
   return val * 1 < 10 ? `0${val}` : val;
@@ -163,4 +164,19 @@ const reg = /(((^https?:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-
 
 export function isUrl(path) {
   return reg.test(path);
+}
+
+export async function readFileContent(fileObject, options) {
+  options = options || {};
+  return new Promise(function (resolve, reject) {
+    let reader = new FileReader();
+
+    reader.onload = function () {
+      resolve(reader);
+    };
+    reader.onerror = reject;
+    reader.readAsArrayBuffer(fileObject);
+  }).then((reader) => {
+    return reader.result;
+  });
 }
