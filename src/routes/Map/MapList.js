@@ -32,6 +32,8 @@ import  ModalAdd  from './ModalAdd';
 export default class MapList extends PureComponent {
   state = {
     modalVisible: false,
+    pageStart: 0,
+    pageEnd: 5
   }
   componentDidMount() {
     this.props.dispatch({
@@ -66,13 +68,21 @@ export default class MapList extends PureComponent {
     const { user, map, loading } = this.props;
     const mapList = map.list;
     const currentUser = user.currentUser;
-
+    const component = this;
     const paginationProps = {
-      showSizeChanger: true,
-      showQuickJumper: true,
       pageSize: 5,
-      total: 10,
+      total: mapList.length,
+      defaultCurrent: 1,
+      onChange: (page, pageSize) => {
+        var pageIdx = page - 1;
+        var pageStart = pageIdx * pageSize;
+        var pageEnd = pageStart + pageSize;
+        pageEnd = pageEnd < mapList.length ? pageEnd : mapList.length;
+        component.setState({pageStart: pageStart, pageEnd: pageEnd});
+        // alert("pageStart: "+ pageStart + " and pageEnd: " + pageEnd);
+      }
     };
+
 
     const ListContent = ({ data: { user, date } }) => (
       <div className={styles.listContent}>
@@ -105,7 +115,7 @@ export default class MapList extends PureComponent {
               rowKey="id"
               loading={loading}
               pagination={paginationProps}
-              dataSource={mapList}
+              dataSource={mapList.slice(this.state.pageStart, this.state.pageEnd)}
               renderItem={item => {
                 // console.log(item);
                 return (
