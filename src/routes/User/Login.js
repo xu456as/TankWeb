@@ -26,12 +26,12 @@ export default class LoginPage extends Component {
   handleSubmit = (err, values) => {
     console.log(values);
     const { type } = this.state;
-    if (!err && values.password0 == values.password1) {
+    if (!err) {
       this.props.dispatch({
         type: 'login/login',
         payload: {
           email: values.userName,
-          password: values.password0
+          password: values.password
         },
       });
     }
@@ -59,8 +59,7 @@ export default class LoginPage extends Component {
               !login.submitting &&
               this.renderMessage('密码不一致')}
             <UserName name="userName" placeholder="email" />
-            <Password name="password0" placeholder="password" />
-            <Password name="password1" placeholder="password" />
+            <Password name="password" placeholder="password" />
           </Tab>
           <Submit loading={submitting}>登录</Submit>
           <div className={styles.other}>
