@@ -14,7 +14,21 @@ export default class MapDetail extends React.PureComponent {
   }
 
   componentDidMount() {
-
+    const {location} = this.props;
+    let url = null;
+    try{
+      url = location.state.downloadUrl;
+    }catch(err){
+      url = null;
+    }
+    if(url != null){
+      this.props.dispatch({
+        type: 'map/download',
+        payload: {
+          url: url
+        }
+      });
+    }
   }
   mapArray = [
     [1, 1, 1, 1, 1],
@@ -45,7 +59,7 @@ export default class MapDetail extends React.PureComponent {
   paintMap = (map) => {
     const rowLength = map.length;
     return (
-      <div className={styles.map} style={{ width: rowLength * 50 + 'px', margin: "0 auto" }}>
+      <div className={styles.map} style={{ width: rowLength * 20 + 'px', margin: "0 auto" }}>
         {map.map((rowArray, idx) => {
           return this.paintRow(rowArray, idx);
         })}
@@ -55,7 +69,9 @@ export default class MapDetail extends React.PureComponent {
   render() {
     console.log(this.props);
     const { map, location } = this.props;
-    const mapSize = 5;
+    const file = map.file;
+    // console.log(file);
+    const mapSize = file.size;
     let id, currentMap;
     try {
       id = location.state.id;
@@ -114,7 +130,7 @@ export default class MapDetail extends React.PureComponent {
             </Row>
           </div>
           <Divider orientation="left">地图: {currentMap.name}</Divider>
-          {this.paintMap(this.mapArray)}
+          {this.paintMap(file.map)}
           <Divider orientation="left">操作</Divider>
           <div>
 

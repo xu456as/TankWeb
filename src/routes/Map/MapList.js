@@ -41,9 +41,10 @@ export default class MapList extends PureComponent {
     });
   }
 
-  getMapDetail = (id) => {
+  getMapDetail = (id, downloadUrl) => {
+    alert(downloadUrl);
     const { history } = this.props;
-    history.push({ pathname: "/map/detail", state: { id: id } });
+    history.push({ pathname: "/map/detail", state: { id: id, downloadUrl: downloadUrl } });
   }
 
   showAddModal = () => {
@@ -121,7 +122,7 @@ export default class MapList extends PureComponent {
                 return (
                   <List.Item >
                     <List.Item.Meta
-                      title={<a onClick={() => { this.getMapDetail(item.id); }}>{item.name}</a>}
+                      title={<a onClick={() => { this.getMapDetail(item.id, item.url); }}>{item.name}</a>}
                       description={item.name}
                     />
                     <ListContent data={item} />
