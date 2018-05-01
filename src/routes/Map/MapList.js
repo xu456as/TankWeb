@@ -41,7 +41,7 @@ export default class MapList extends PureComponent {
     });
   }
 
-  getMapDetail = (url) => {
+  getMapDetail = (id) => {
     const { history } = this.props;
     history.push({ pathname: "/map/detail", state: { id: id } });
   }
@@ -121,7 +121,7 @@ export default class MapList extends PureComponent {
                 return (
                   <List.Item >
                     <List.Item.Meta
-                      title={<a onClick={() => { }}>{item.name}</a>}
+                      title={<a onClick={() => { this.getMapDetail(item.id); }}>{item.name}</a>}
                       description={item.name}
                     />
                     <ListContent data={item} />
