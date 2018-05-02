@@ -31,7 +31,10 @@ import ModalAdd from './ModalAdd';
 export default class ProjectList extends PureComponent {
 
   state = {
-    modalVisible: false
+    modalVisible: false,
+    currentPage: 1,
+    pageStart: 0,
+    pageEnd: 5
   }
 
   componentDidMount() {
@@ -60,17 +63,38 @@ export default class ProjectList extends PureComponent {
     this.closeAddModal();
   }
 
+  onDeleteBtn = (projectId) => {
+    // alert(projectId);
+    this.props.dispatch({
+      type: "project/delete",
+      payload: {projectId: projectId}
+    });
+  }
+
+  onDownloadBtn = (url) => {
+    this.props.dispatch({
+      type: "project/download",
+      payload: {url: url}
+    });
+  }
+
   render() {
-    console.log(this.props);
+    // console.log(this.props);
     const { project, loading, user } = this.props;
     const currentUser = user.currentUser;
     const projectList = project.list;
 
     const paginationProps = {
-      showSizeChanger: true,
-      showQuickJumper: true,
+      current: this.state.currentPage,
       pageSize: 5,
-      total: 10,
+      total: projectList.length,
+      onChange: (page, pageSize) => {
+        var pageIdx = page - 1;
+        var pageStart = pageIdx * pageSize;
+        var pageEnd = pageStart + pageSize;
+        pageEnd = pageEnd < projectList.length ? pageEnd : projectList.length;
+        component.setState({pageStart: pageStart, pageEnd: pageEnd, currentPage: page});
+      }
     };
 
     const ListContent = ({ data: { language, compressType, date } }) => (
@@ -112,9 +136,13 @@ export default class ProjectList extends PureComponent {
               renderItem={item => {
                 // console.log(item);
                 return (
-                  <List.Item actions={[<a>下载</a>,<a>编辑</a>,<a>删除</a>]}>
+                  <List.Item
+                  actions={[
+                  <a onClick={() => this.onDownloadBtn(item.url)}>下载</a>,
+                  <a onClick={() => this.onDeleteBtn(item.id)}>删除</a>
+                  ]}>
                     <List.Item.Meta
-                      title={<a onClick={() => {}}>{item.name}</a>}
+                      title={item.name}
                       description={item.name}
                     />
                     <ListContent data={{...item}} />

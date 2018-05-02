@@ -27,7 +27,5 @@ export async function editProject(queryString, projectFile){
 }
 
 export async function deleteProject(projectId){
-  return request(`${href}${pathPrefix}/delete`, {
-    body: {projectId: projectId}
-  });
+  return request(`${href}${pathPrefix}/delete?${stringify({projectId: projectId})}`, {method: 'POST'});
 }

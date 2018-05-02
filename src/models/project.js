@@ -1,3 +1,4 @@
+import { download } from '../services/CommonService';
 import {
   getProjects,
   addProject,
@@ -20,12 +21,24 @@ export default {
     },
     *upload({payload}, {call, put}){
       const response = yield call(addProject, payload.requestParam, payload.projectFile);
-      console.log(response);
+      // console.log(response);
       if(response.code === "1"){
         yield put({
           type: "fetch"
         });
       }
+    },
+    *delete({payload}, {call, put}){
+      console.log(payload);
+      const response = yield call(deleteProject, payload.projectId);
+      if(response.code === "1"){
+        yield put({
+          type: "fetch"
+        });
+      }
+    },
+    *download({payload}, {call, put}){
+      yield call(download, payload.url);
     }
   },
   reducers: {
