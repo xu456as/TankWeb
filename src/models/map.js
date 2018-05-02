@@ -1,4 +1,4 @@
-import { getMaps, addMap } from '../services/BattleMapService';
+import { getMaps, addMap, editMap } from '../services/BattleMapService';
 import { downloadAsText } from '../services/CommonService';
 import { readFileContent } from '../utils/utils';
 export default {
@@ -18,6 +18,12 @@ export default {
         type: 'saveMap',
         payload: Array.isArray(response) ? response : [],
       });
+    },
+    *edit({payload}, {call, put}){
+      const response = yield call(editMap, payload);
+      if(response.code === 1){
+        yield put({type: "fetch"});
+      }
     },
     *upload({payload}, {call, put}){
 
@@ -53,6 +59,7 @@ export default {
         file: payload
       }
     }
+
   }
 };
 

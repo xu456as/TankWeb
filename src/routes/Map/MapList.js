@@ -32,6 +32,7 @@ import  ModalAdd  from './ModalAdd';
 export default class MapList extends PureComponent {
   state = {
     modalVisible: false,
+    currentPage: 1,
     pageStart: 0,
     pageEnd: 5
   }
@@ -42,7 +43,7 @@ export default class MapList extends PureComponent {
   }
 
   getMapDetail = (id, downloadUrl) => {
-    alert(downloadUrl);
+    // alert(downloadUrl);
     const { history } = this.props;
     history.push({ pathname: "/map/detail", state: { id: id, downloadUrl: downloadUrl } });
   }
@@ -71,15 +72,15 @@ export default class MapList extends PureComponent {
     const currentUser = user.currentUser;
     const component = this;
     const paginationProps = {
+      current: this.state.currentPage,
       pageSize: 5,
       total: mapList.length,
-      defaultCurrent: 1,
       onChange: (page, pageSize) => {
         var pageIdx = page - 1;
         var pageStart = pageIdx * pageSize;
         var pageEnd = pageStart + pageSize;
         pageEnd = pageEnd < mapList.length ? pageEnd : mapList.length;
-        component.setState({pageStart: pageStart, pageEnd: pageEnd});
+        component.setState({pageStart: pageStart, pageEnd: pageEnd, currentPage: page});
         // alert("pageStart: "+ pageStart + " and pageEnd: " + pageEnd);
       }
     };

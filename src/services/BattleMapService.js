@@ -17,3 +17,9 @@ export async function addMap(queryString, mapFile){
     body: formData
   });
 }
+export async function editMap(content){
+  return request(`${href}${pathPrefix}/edit`, {
+    method: 'POST',
+    body: content
+  });
+}

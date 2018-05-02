@@ -1,27 +1,42 @@
 import React from 'react';
 import { Avatar, Layout, Divider, Card, Col, Row, Menu, Button } from 'antd';
-const  ButtonGroup = Button.Group;
+const ButtonGroup = Button.Group;
 import styles from './MapDetail.less'
 const { Content } = Layout;
 import { connect } from 'dva';
+import ModalEdit from './ModalEdit';
 
-@connect(({ map }) => ({ map }))
+@connect(({ user, map }) => ({ user, map }))
 export default class MapDetail extends React.PureComponent {
 
   state = {
+    currentMap: {},
+    modalVisible: false,
     row: 0,
     col: 0
   }
 
   componentDidMount() {
-    const {location} = this.props;
+    const { location, map } = this.props;
+    let id, currentMap;
+    try {
+      id = location.state.id;
+      currentMap = map.list.filter((m) => {
+        return m.id === id;
+      })[0];
+    } catch (err) {
+      id = 0;
+      currentMap = {}
+    }
+    this.setState({currentMap: currentMap});
+
     let url = null;
-    try{
+    try {
       url = location.state.downloadUrl;
-    }catch(err){
+    } catch (err) {
       url = null;
     }
-    if(url != null){
+    if (url != null) {
       this.props.dispatch({
         type: 'map/download',
         payload: {
@@ -66,23 +81,46 @@ export default class MapDetail extends React.PureComponent {
       </div>);
   }
 
+  openEditModal = () => {
+    this.setState({ modalVisible: true });
+  }
+
+  hideEditModal = () => {
+    this.setState({ modalVisible: false });
+  }
+
+
+  handleEditMap = (data) => {
+    console.log(data);
+    this.props.dispatch({
+      type: 'map/edit',
+      payload : data
+    });
+    this.setState({currentMap: data});
+    this.setState({ modalVisible: false });
+  }
+
   render() {
     console.log(this.props);
-    const { map, location } = this.props;
+    const { user, map, location } = this.props;
     const file = map.file;
+    const currentUser = user.currentUser;
     // console.log(file);
     const mapSize = file.size;
-    let id, currentMap;
-    try {
-      id = location.state.id;
-      currentMap = map.list.filter((m) => {
-        return m.id === id;
-      })[0];
-    } catch (err) {
-      id = 0;
-      currentMap = {}
-    }
+    const currentMap = this.state.currentMap;
     console.log(currentMap);
+
+    const operationPanel = (
+    <div>
+    <Divider orientation="left">操作</Divider>
+    <div style={{ margin: "0 auto", background: "#fff" }}>
+      <p style={{ textAlign: "center" }}>
+        <Button disabled={true} type="primary" style={{ margin: "10px" }} icon="close">删除</Button>
+        <Button onClick={this.openEditModal} type="primary" style={{ margin: "10px" }} icon="tool">编辑参数</Button>
+      </p>
+    </div>
+    </div>);
+
     return (
       <Layout style={{ background: '#fff', height: '100%' }}>
         <Content>
@@ -131,17 +169,14 @@ export default class MapDetail extends React.PureComponent {
           </div>
           <Divider orientation="left">地图: {currentMap.name}</Divider>
           {this.paintMap(file.map)}
-          <Divider orientation="left">操作</Divider>
           <div>
-
-            <div style={{ margin: "0 auto" , background: "#fff"}}>
-              <p style={{textAlign: "center"}}>
-                <Button type="primary" style={{margin: "10px"}} icon="close">Cancel</Button>
-                <Button type="primary" style={{margin: "10px"}} icon="tool">OK</Button>
-              </p>
-            </div>
-
+            {currentUser && currentUser.type===1 && operationPanel}
           </div>
+          <ModalEdit visible={this.state.modalVisible}
+            currentMap={currentMap}
+            onCancel={this.hideEditModal}
+            onSubmit={this.handleEditMap}
+          />
         </Content>
       </Layout>
     );
