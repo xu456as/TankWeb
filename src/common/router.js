@@ -83,7 +83,10 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () => import('../routes/MainPage/Article')),
     },
     '/room': {
-      component: dynamicWrapper(app, [], () => import('../routes/Exception/403')),
+      component: dynamicWrapper(app, [], () => import('../layouts/RoomLayout')),
+    },
+    '/room/list':{
+      component: dynamicWrapper(app, ['room', 'map', 'user', 'project'], () => import('../routes/Room/RoomList')),
     },
     '/rank-list': {
       component: dynamicWrapper(app, [], () => import('../routes/Exception/500')),

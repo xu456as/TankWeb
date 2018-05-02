@@ -7,7 +7,7 @@ const menuData = [
     path: 'main-page'
   },
   {
-    name: '房间',
+    name: '游戏大厅',
     icon: 'table',
     path: 'room'
   },
