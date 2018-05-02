@@ -89,7 +89,10 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () => import('../routes/Exception/500')),
     },
     '/strategy-management': {
-      component: dynamicWrapper(app, [], () => import('../routes/Exception/500')),
+      component: dynamicWrapper(app, [], () => import('../layouts/StrategyManagementLayout')),
+    },
+    '/strategy-management/list': {
+      component: dynamicWrapper(app, ['user', 'project'], () => import('../routes/StrategyManagement/ProjectList'))
     },
     '/reply': {
       component: dynamicWrapper(app, [], () => import('../layouts/RelayLayout')),
