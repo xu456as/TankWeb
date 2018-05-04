@@ -32,7 +32,7 @@ export default {
       // const body = yield call(readFileContent, payload.mapFile);
       // console.log({body: body});
       const response = yield call(addMap, queryString, payload.mapFile);
-      console.log({response: response});
+      // console.log({response: response});
       if(response.code === 1){
         alert("Upload successfully");
       }
@@ -63,7 +63,7 @@ export default {
   }
 };
 
-function parseFile(res){
+export function parseFile(res){
   const lines = res.split('\n');
   let sizeInited = false;
   let size;
@@ -81,8 +81,8 @@ function parseFile(res){
   if(map.length > size){
     map = map.slice(0, size);
   }
-  if (!size && data[0]) {
-    size = data[0].length
+  if (!size && map[0]) {
+    size = map[0].length
   }
 
   return {
