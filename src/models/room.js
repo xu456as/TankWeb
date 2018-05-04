@@ -1,4 +1,4 @@
-import { getRooms, createRoom } from '../services/RoomService';
+import { getRooms, createRoom, joinRoom } from '../services/RoomService';
 
 export default {
   namespace: "room",
@@ -22,6 +22,9 @@ export default {
           payload: {pageIndex: 1, pageSize: 10}
         });
       }
+    },
+    *join({payload}, {call, put}){
+      const response = yield call(joinRoom, payload.roomId, payload.projectId);
     }
   },
   reducers:{
