@@ -24,7 +24,7 @@ export default class LoginPage extends Component {
   };
 
   handleSubmit = (err, values) => {
-    console.log(values);
+    // console.log(values);
     const { type } = this.state;
     if (!err) {
       this.props.dispatch({

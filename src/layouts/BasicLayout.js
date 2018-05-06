@@ -149,7 +149,7 @@ class BasicLayout extends React.PureComponent {
 
   handleMainMenuSwitch = (path) => {
     this.props.match.path = path;
-    console.log(this.props.match.path);
+    // console.log(this.props.match.path);
   };
 
   loginBtn = () => {
@@ -159,7 +159,7 @@ class BasicLayout extends React.PureComponent {
     this.props.history.push("/user/register");
   }
   logoutBtn = () => {
-    console.log("logoutBtn");
+    // console.log("logoutBtn");
     this.props.dispatch({
       type: 'user/logout'
     });

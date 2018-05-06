@@ -33,9 +33,9 @@ export default class ReplyList extends PureComponent {
     });
   }
 
-  getLogDetail = (url) => {
+  getLogDetail = (item) => {
     const {history} = this.props;
-    history.push({pathname: "/reply/detail", state: {url: url}});
+    history.push({pathname: "/reply/detail", state: {reply: item}});
   }
 
   render() {
@@ -92,7 +92,7 @@ export default class ReplyList extends PureComponent {
                 return (
                   <List.Item >
                     <List.Item.Meta
-                      title={<a onClick={() => { this.getLogDetail(item.url) }}>{item.id}</a>}
+                      title={<a onClick={() => { this.getLogDetail(item) }}>{item.id}</a>}
                       description="战斗回放"
                     />
                     <ListContent data={{ mapName: item.id.split("|")[1], ...item }} />

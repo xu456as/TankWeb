@@ -1,4 +1,141 @@
 @import '~antd/lib/style/themes/default.less';
 @import '../../utils/utils.less';
 
+.map {
+  position: relative;
+  display: table;
+  background-image: url('../../assets/ground.png');
+  background-repeat: repeat-x repeat-y;
+}
 
+.mapRow {
+  display: table-row;
+}
+
+.mapCell {
+  display: table-cell;
+  width: 20px;
+  height: 20px;
+  background-color: transparent;
+  background-size: contain;
+  background-position: center center;
+}
+
+.emptyCell{
+  border: 1px dashed;
+  background-image: url('../../assets/ground.png');
+}
+
+.blockCell {
+  background-image: url('../../assets/stone.png');
+}
+
+.jungleCell {
+  background-image: url('../../assets/grass.png');
+}
+
+.flag {
+  position: absolute;
+  background-image: url('../../assets/star.png');
+  left: 50%;
+  top: 50%;
+  width: 50px;
+  height: 50px;
+  transform: translate(-50%, -50%);
+  z-index: 102;
+  transition-property: left, top;
+  transition: linear;
+  transition-duration: 400ms;
+  background-color: transparent;
+  background-size: contain;
+  background-position: center center;
+  opacity: 1;
+}
+
+.hidden {
+  opacity: 0;
+}
+
+.shell {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: transparent;
+  background-size: contain;
+  background-position: center top;
+  z-index: 101;
+  transition-property: left, top;
+  transition: linear;
+  transition-duration: 400ms;
+}
+
+.shellDestroyed {
+  display: none;
+}
+
+.shellRed {
+  background-image: url('../../assets/bullet1.png');
+}
+
+.shellBlue {
+  background-image: url('../../assets/bullet2.png');
+}
+
+.shellDown {
+  transform: rotateZ(180deg)
+}
+
+.shellRight {
+  transform: rotateZ(90deg)
+}
+
+.shellLeft {
+  transform: rotateZ(-90deg)
+}
+
+.tank {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: transparent;
+  background-size: contain;
+  background-position: center center;
+  z-index: 100;
+  transition-property: left, top;
+  transition: linear;
+  transition-duration: 400ms;
+}
+
+.tankId {
+  position: absolute;
+  color: white;
+  text-align: center;
+  left: 50%;
+  bottom: 1px;
+  font-size: 12px;
+  transform: translate(-50%, 0);
+}
+
+.tankRed {
+  background-image: url('../../assets/tank1.png');
+}
+
+.tankBlue {
+  background-image: url('../../assets/tank2.png');
+}
+
+.tankDestroy {
+  background-image: url('../../assets/crash1.png');
+}
+
+.tankDown {
+  transform: rotateZ(180deg)
+}
+
+.tankRight {
+  transform: rotateZ(90deg)
+}
+
+.tankLeft {
+  transform: rotateZ(-90deg)
+}

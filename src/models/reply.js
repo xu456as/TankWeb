@@ -20,10 +20,10 @@ export default {
     },
     *download({payload}, {call, put}){
       const response = yield call(downloadAsText, payload.url);
-      console.log(response);
+      // console.log(response);
       yield put({
         type: 'saveFile',
-        payload: parseLog(response),
+        payload: parseLog(response, payload.aPort, payload.bPort),
       });
     }
   },
@@ -45,7 +45,7 @@ export default {
 };
 
 
-function parseLog(res) {
+function parseLog(res, aPort, bPort) {
   const mapDataMatches = /const\s+MAP_1\s+=\s+'([\d\s\n\r]*)'/g.exec(res || '');
   let map, blueHost, redHost, replayLogs;
   if (mapDataMatches) {
@@ -64,17 +64,20 @@ function parseLog(res) {
     const firstLog = (replayLogs || [])[0];
     if (firstLog && firstLog.tanks) {
       firstLog.tanks.forEach((tank) => {
-        if (!blueHost) {
-          blueHost = tank.owner;
-        }
-        if (!redHost && blueHost !== tank.owner) {
+        const port = tank.owner.split(":")[1];
+        console.log("port: "+port);
+        console.log("aPort: "+aPort);
+        if(port === aPort){
           redHost = tank.owner;
+        }
+        else{
+          blueHost = tank.owner;
         }
       })
     }
     replayLogs.forEach(({ tanks = [], shells = [] }) => {
       tanks.forEach((tank) => {
-        tank.type = (blueHost === tank.owner) ? 'blue' : 'red';
+        tank.type = (redHost === tank.owner) ? 'red' : 'blue';
         tank.dir = (tank.dir || '').toLowerCase();
       });
       shells.forEach((shell) => {

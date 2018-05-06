@@ -70,8 +70,8 @@ export function parseFile(res){
   let map = [];
   lines.forEach((line) => {
     if (!sizeInited && line.indexOf('size:') > -1) {
-      size = +line.replace('size:', '').trim()
-      sizeInited = true
+      size = +line.replace('size:', '').trim();
+      sizeInited = true;
     } else if (line.indexOf('//') === -1) {
       map.push(line.split(' ').map(val => {
         return parseInt(val);
@@ -82,7 +82,7 @@ export function parseFile(res){
     map = map.slice(0, size);
   }
   if (!size && map[0]) {
-    size = map[0].length
+    size = map[0].length;
   }
 
   return {

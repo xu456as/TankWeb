@@ -14,7 +14,7 @@ class Article extends React.PureComponent {
   }
 
   parseContent = (contents) => {
-    console.log(contents);
+    // console.log(contents);
     if (!Array.isArray(contents)) {
       return (<p>{contents}</p>);
     }
@@ -24,7 +24,7 @@ class Article extends React.PureComponent {
   }
 
   render() {
-    console.log(this.props);
+    // console.log(this.props);
     const { article, location } = this.props;
     const articles = article.articles;
 

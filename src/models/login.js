@@ -12,10 +12,10 @@ export default {
 
   effects: {
     *login({ payload }, { call, put }) {
-      console.log(payload);
+      // console.log(payload);
       const response = yield call(login, payload);
 
-      console.log(response);
+      // console.log(response);
       yield put({
         type: 'changeLoginStatus',
         payload: {...response, currentAuthority: "user"},
@@ -31,7 +31,7 @@ export default {
     },
     *logout(_, { call, put }) {
       try {
-        console.log("login/logout");
+        // console.log("login/logout");
         const resp = yield call(logout);
         // get location pathname
         // const urlParams = new URL(window.location.href);

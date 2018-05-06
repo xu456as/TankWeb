@@ -15,7 +15,7 @@ export default {
       });
     },
     *logout(_, { call, put }) {
-      console.log("user/logout");
+      // console.log("user/logout");
       yield put({
         type: 'clearUser'
       });

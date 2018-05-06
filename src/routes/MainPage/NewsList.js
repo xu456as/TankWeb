@@ -85,7 +85,7 @@ export default class NewsList extends PureComponent {
               pagination={paginationProps}
               dataSource={articles}
               renderItem={item => {
-                console.log(item);
+                // console.log(item);
                 return (
                 <List.Item >
                   <List.Item.Meta

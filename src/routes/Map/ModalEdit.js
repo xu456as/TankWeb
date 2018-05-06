@@ -14,7 +14,7 @@ export default class ModalEdit extends React.Component {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        // console.log('Received values of form: ', values);
       }
     });
   }
@@ -41,7 +41,7 @@ export default class ModalEdit extends React.Component {
     e.preventDefault();
     this.props.form.validateFields({ force: true }, (err, values) => {
       if (!err) {
-        console.log(values);
+        // console.log(values);
         const payload = {
           ...values,
           mapFile: this.state.mapFile

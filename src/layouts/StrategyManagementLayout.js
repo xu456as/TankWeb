@@ -7,7 +7,7 @@ const { Content } = Layout;
 const { AuthorizedRoute, check } = Authorized;
 
 
-export default class ReplyLayout extends React.PureComponent {
+export default class strategyManagementLayout extends React.PureComponent {
 
   render() {
 

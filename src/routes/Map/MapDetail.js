@@ -91,7 +91,7 @@ export default class MapDetail extends React.PureComponent {
 
 
   handleEditMap = (data) => {
-    console.log(data);
+    // console.log(data);
     this.props.dispatch({
       type: 'map/edit',
       payload : data
@@ -101,14 +101,14 @@ export default class MapDetail extends React.PureComponent {
   }
 
   render() {
-    console.log(this.props);
+    // console.log(this.props);
     const { user, map, location } = this.props;
     const file = map.file;
     const currentUser = user.currentUser;
     // console.log(file);
     const mapSize = file.size;
     const currentMap = this.state.currentMap;
-    console.log(currentMap);
+    // console.log(currentMap);
 
     const operationPanel = (
     <div>
