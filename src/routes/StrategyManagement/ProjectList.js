@@ -92,6 +92,8 @@ export default class ProjectList extends PureComponent {
         var pageIdx = page - 1;
         var pageStart = pageIdx * pageSize;
         var pageEnd = pageStart + pageSize;
+        const component = this;
+        console.log(component);
         pageEnd = pageEnd < projectList.length ? pageEnd : projectList.length;
         component.setState({pageStart: pageStart, pageEnd: pageEnd, currentPage: page});
       }
@@ -132,7 +134,7 @@ export default class ProjectList extends PureComponent {
               rowKey="id"
               loading={loading}
               pagination={paginationProps}
-              dataSource={projectList}
+              dataSource={projectList.slice(this.state.pageStart, this.state.pageEnd)}
               renderItem={item => {
                 // console.log(item);
                 return (

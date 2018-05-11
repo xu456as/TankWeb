@@ -21,7 +21,7 @@ export default {
     },
     *edit({payload}, {call, put}){
       const response = yield call(editMap, payload);
-      if(response.code === 1){
+      if(response.code === "1"){
         yield put({type: "fetch"});
       }
     },
@@ -33,8 +33,8 @@ export default {
       // console.log({body: body});
       const response = yield call(addMap, queryString, payload.mapFile);
       // console.log({response: response});
-      if(response.code === 1){
-        alert("Upload successfully");
+      if(response.code === "1"){
+        yield put({type: "fetch"});
       }
     },
     *download({payload}, {call, put}){

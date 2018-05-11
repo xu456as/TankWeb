@@ -40,8 +40,8 @@ class ReplyChess extends React.PureComponent {
     this.props.dispatch({
       type: 'reply/download',
       payload: {
-        url: '/data/tank_log/1525451137098.YourImagination.1.32767.1.32766',
-        // url: reply.url,
+        // url: '/data/tank_log/1525451137098.YourImagination.1.32767.1.32766',
+        url: reply.url,
         aPort: aPort,
         bPort: bPort
       }

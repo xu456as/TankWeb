@@ -14,7 +14,7 @@ const menuData = [
   {
     name: '排行榜',
     icon: 'warning',
-    path: 'rank-list'
+    path: 'rank'
   },
   {
     name: '策略管理',

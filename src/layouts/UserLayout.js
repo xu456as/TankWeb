@@ -9,25 +9,28 @@ import { getRoutes } from '../utils/utils';
 
 const links = [
   {
-    key: 'help',
-    title: '帮助',
-    href: '',
+    key: 'baidu',
+    title: 'baidu',
+    href: 'http://www.baidu.com',
+    blankTarget: true,
   },
   {
-    key: 'privacy',
-    title: '隐私',
-    href: '',
+    key: 'github',
+    title: <Icon type="github" />,
+    href: 'https://github.com/xu456as',
+    blankTarget: true,
   },
   {
-    key: 'terms',
-    title: '条款',
-    href: '',
+    key: 'Ant Design',
+    title: 'Ant Design',
+    href: 'http://ant.design',
+    blankTarget: true,
   },
 ];
 
 const copyright = (
   <Fragment>
-    Copyright <Icon type="copyright" /> 2018 蚂蚁金服体验技术部出品
+    Copyright <Icon type="copyright" /> 2018 Fangzheng.Xu org
   </Fragment>
 );
 

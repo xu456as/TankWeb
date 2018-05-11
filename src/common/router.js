@@ -88,8 +88,11 @@ export const getRouterData = app => {
     '/room/list':{
       component: dynamicWrapper(app, ['room', 'map', 'user', 'project'], () => import('../routes/Room/RoomList')),
     },
-    '/rank-list': {
-      component: dynamicWrapper(app, [], () => import('../routes/Exception/500')),
+    '/rank': {
+      component: dynamicWrapper(app, [], () => import('../layouts/RankLayout')),
+    },
+    '/rank/list': {
+      component: dynamicWrapper(app, ['rank'], () => import('../routes/Rank/RankList')),
     },
     '/strategy-management': {
       component: dynamicWrapper(app, [], () => import('../layouts/StrategyManagementLayout')),
