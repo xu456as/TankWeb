@@ -27,6 +27,13 @@ const { Search } = Input;
   loading: loading.models.list
 }))
 export default class ReplyList extends PureComponent {
+
+  state = {
+    currentPage: 1,
+    pageStart: 0,
+    pageEnd: 5
+  }
+
   componentDidMount() {
     this.props.dispatch({
       type: 'reply/fetch'
@@ -44,10 +51,17 @@ export default class ReplyList extends PureComponent {
     const replylogs = reply.logs;
 
     const paginationProps = {
-      showSizeChanger: true,
-      showQuickJumper: true,
+      current: this.state.currentPage,
       pageSize: 5,
-      total: 10,
+      total: replylogs.length,
+      onChange: (page, pageSize) => {
+        var pageIdx = page - 1;
+        var pageStart = pageIdx * pageSize;
+        var pageEnd = pageStart + pageSize;
+        const component = this;
+        pageEnd = pageEnd < replylogs.length ? pageEnd : replylogs.length;
+        component.setState({pageStart: pageStart, pageEnd: pageEnd, currentPage: page});
+      }
     };
 
     const ListContent = ({ data: { mapName, projectAId, projectBId, date } }) => (
@@ -86,7 +100,7 @@ export default class ReplyList extends PureComponent {
               rowKey="id"
               loading={loading}
               pagination={paginationProps}
-              dataSource={replylogs}
+              dataSource={replylogs.slice(this.state.pageStart, this.state.pageEnd)}
               renderItem={item => {
                 // console.log(item);
                 return (
@@ -95,7 +109,7 @@ export default class ReplyList extends PureComponent {
                       title={<a onClick={() => { this.getLogDetail(item) }}>{item.id}</a>}
                       description="战斗回放"
                     />
-                    <ListContent data={{ mapName: item.id.split("|")[1], ...item }} />
+                    <ListContent data={{ mapName: item.id.split(".")[1], ...item }} />
                   </List.Item>
                 );
               }}

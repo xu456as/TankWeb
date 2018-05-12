@@ -59,17 +59,18 @@ export default class RankList extends PureComponent {
     //   pageSize: 5,
     //   total: 10,
     // };
-
+    const conponent = this;
     const paginationProps = {
       current: this.state.currentPage,
       pageSize: 10,
-      total: rankList,
+      total: rankList.length,
       onChange: (page, pageSize) => {
         // var pageIdx = page - 1;
         // var pageStart = pageIdx * pageSize;
         // var pageEnd = pageStart + pageSize;
         // pageEnd = pageEnd < projectList.length ? pageEnd : projectList.length;
         // component.setState({pageStart: pageStart, pageEnd: pageEnd, currentPage: page});
+        const component = this;
         component.setState({currentPage: page});
       }
     };

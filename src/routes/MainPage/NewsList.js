@@ -49,10 +49,8 @@ export default class NewsList extends PureComponent {
     const {articles} = article;
 
     const paginationProps = {
-      showSizeChanger: true,
-      showQuickJumper: true,
       pageSize: 5,
-      total: 10,
+      total: articles.length,
     };
 
     const ListContent = ( {data: { author, title, date, content } }) => (
